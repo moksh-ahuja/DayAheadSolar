@@ -126,7 +126,7 @@ elif section == "Final Insights":
 elif section == "Credits":
     st.header("📜 Credits & Acknowledgments")
     st.markdown("""
-- 👨‍💻 **Project by**: [Your Name]
+- 👨‍💻 **Project by**: [Moksh Ahuja]
 - 🛰️ **Datasets**:
   - NASA POWER: Climate and radiation variables
   - CEA: Daily solar energy (MWh)
