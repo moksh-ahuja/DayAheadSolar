@@ -92,6 +92,9 @@ elif section == "Model Performance":
 
     st.subheader("Prophet Trend Components")
     st.image(load_image("outputs/prophet_components.png"), use_container_width=True)
+
+    st.subheader("SARIMAX Diagnostics")
+    st.image(load_image("outputs/SARIMAX.png"), use_container_width=True)
     
     st.subheader("Permutation Importance (Linear Regression)")
     st.image(load_image("outputs/linreg_permutationimp.png"), use_container_width=True)
