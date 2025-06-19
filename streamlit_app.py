@@ -5,135 +5,129 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 
-# --- PAGE CONFIGURATION ---
-st.set_page_config(page_title="Day-Ahead Solar Forecasting", layout="wide")
+# Set up the Streamlit page
+st.set_page_config(page_title="Day-Ahead Solar Forecasting Dashboard", layout="wide")
 
-# --- TITLE ---
-st.title("🔆 Day-Ahead Solar Generation Forecasting Dashboard")
-st.markdown("""
-This dashboard showcases an end-to-end pipeline for forecasting day-ahead solar generation in India using weather and energy data.
-""")
-
-# --- SIDEBAR ---
-st.sidebar.header("📂 Navigation")
-section = st.sidebar.radio("Go to:", [
+# Sidebar navigation
+st.sidebar.title("Navigation")
+section = st.sidebar.radio("Go to Section:", [
     "Overview",
     "Dataset & Trends",
     "Feature Engineering",
-    "Model Comparisons",
-    "Model Explainability",
-    "Final Insights",
-    "Credits"])
+    "Model Performance",
+    "Explainability",
+    "Insights & Interpretation",
+    "Credits"
+])
 
-# --- HELPER FUNCTION ---
+# Helper to load images from relative paths
 def load_image(path):
     return Image.open(path)
 
-# --- 1. OVERVIEW ---
+# Section: Overview
 if section == "Overview":
-    st.header("📌 Project Overview")
+    st.title("Day-Ahead Solar Forecasting Dashboard")
     st.markdown("""
-- 🎯 **Goal**: Forecast next-day solar energy (MWh) using weather and generation data.
-- 📊 **Data Sources**: NASA POWER (climate), CEA (solar output)
-- 🧠 **ML Models**: Linear Regression, Random Forest, XGBoost, Neural Network
-- 🔁 **Time Series**: Prophet, SARIMA, SARIMAX
-- 🔬 **Explainability**: SHAP analysis
-- ✅ **Best Model**: Prophet (R² ≈ 0.73)
-""")
+    This project forecasts daily solar power generation in Rajasthan, India, using weather data (NASA POWER) and output data (CEA).
+    
+    **Goals:**
+    - Predict next-day solar energy (MWh) using temperature, radiation, humidity, and other weather variables
+    - Evaluate and compare machine learning and time series models
+    - Interpret results using explainability tools
 
-# --- 2. DATASET & TRENDS ---
+    **Models used:**
+    - Linear Regression, Random Forest, XGBoost, Neural Network
+    - Prophet, SARIMA, SARIMAX
+    - SHAP for feature importance
+    """)
+
+# Section: Dataset & Trends
 elif section == "Dataset & Trends":
-    st.header("📊 Dataset & Trends")
-    df = pd.read_csv("/content/drive/MyDrive/DayAheadSolar/data/processed/merged_solar_climate_engineered.csv", parse_dates=["date"])
+    st.header("Dataset and Trend Analysis")
+    df = pd.read_csv("data/processed/merged_solar_climate_engineered.csv", parse_dates=["date"])
     st.subheader("Sample of Feature-Engineered Data")
     st.dataframe(df.head())
 
     st.subheader("Correlation Heatmap")
-    st.image(load_image("/content/drive/MyDrive/DayAheadSolar/outputs/corr.png"), use_column_width=True)
+    st.image(load_image("outputs/corr.png"), use_column_width=True)
 
-    st.subheader("Pairplot of Climate & Solar Variables")
-    st.image(load_image("/content/drive/MyDrive/DayAheadSolar/outputs/pairplot.png"), use_column_width=True)
+    st.subheader("Pairplot: Solar vs Climate Variables")
+    st.image(load_image("outputs/pairplot.png"), use_column_width=True)
 
-    st.subheader("Temporal Trends in Solar Output")
-    st.image(load_image("/content/drive/MyDrive/DayAheadSolar/outputs/temporal.png"), use_column_width=True)
+    st.subheader("Solar Generation and Climate Trends Over Time")
+    st.image(load_image("outputs/temporal.png"), use_column_width=True)
 
-# --- 3. FEATURE ENGINEERING ---
+# Section: Feature Engineering
 elif section == "Feature Engineering":
-    st.header("🛠️ Feature Engineering Summary")
+    st.header("Feature Engineering Techniques")
     st.markdown("""
-We created **59+ features** using:
-- Lag features (1-day, 7-day)
-- Rolling mean features (7-day average)
-- Cyclical encodings (month, weekday using sin/cos)
-- Novel **cloudiness index** (clear-sky − all-sky radiation)
-- Interaction terms: wind × radiation, humidity × temp
-- Cumulative and trend-based statistics
-""")
+    This project created over 50 features using:
 
-# --- 4. MODEL COMPARISONS ---
-elif section == "Model Comparisons":
-    st.header("🤖 Model Comparisons")
+    - Lag variables (e.g., solar_mwh lagged by 1, 7 days)
+    - Rolling means (7-day rolling averages)
+    - Cyclical encodings (day_of_week, month as sin/cos)
+    - Climate interactions (e.g., wind × radiation)
+    - Cloudiness index (clear sky – all sky radiation)
+    """)
+
+# Section: Model Performance
+elif section == "Model Performance":
+    st.header("Model Performance Comparison")
 
     st.markdown("""
-| Model              | MAE     | RMSE     | R²     |
-|--------------------|----------|----------|--------|
-| Linear Regression  | 10,069   | 14,561   | 0.66   |
-| Random Forest      | 29,389   | 32,505   | -0.69  |
-| XGBoost            | 31,179   | 34,344   | -0.89  |
-| Neural Network     | 120,861  | 125,441  | -24.2  |
-| Prophet            | 12,171   | 16,648   | 0.735  |
-| Auto-SARIMAX       | 24,376   | 30,871   | 0.325  |
-""")
+    Performance metrics (after feature engineering):
 
-    st.subheader("Prophet Forecast Plot")
-    st.image(load_image("/content/drive/MyDrive/DayAheadSolar/outputs/prophet.png"), use_column_width=True)
+    | Model              | MAE      | RMSE     | R²     |
+    |--------------------|----------|----------|--------|
+    | Linear Regression  | 10,069   | 14,561   | 0.66   |
+    | Random Forest      | 29,389   | 32,505   | -0.69  |
+    | XGBoost            | 31,179   | 34,344   | -0.89  |
+    | Neural Network     | 120,861  | 125,441  | -24.2  |
+    | Prophet            | 12,171   | 16,648   | 0.735  |
+    | Auto-SARIMAX       | 24,376   | 30,871   | 0.325  |
+    """)
+
+    st.subheader("Prophet Forecast")
+    st.image(load_image("outputs/prophet.png"), use_column_width=True)
 
     st.subheader("Prophet Trend Components")
-    st.image(load_image("/content/drive/MyDrive/DayAheadSolar/outputs/prophet_components.png"), use_column_width=True)
+    st.image(load_image("outputs/prophet_components.png"), use_column_width=True)
 
-# --- 5. MODEL EXPLAINABILITY ---
-elif section == "Model Explainability":
-    st.header("🔍 SHAP Model Explainability")
-
-    st.markdown("""
-SHAP helps us explain feature contributions to predictions.
-
-**Top Drivers**:
-- 🔁 Lag features (yesterday’s solar MWh)
-- 🌤️ Radiation variables
-- 🌫️ Cloudiness index
-- 🌬️ Wind speed
-- 🌡️ Temperature
-
-**Interpretation**: Red = High feature value, Blue = Low feature value
-""")
-    st.image(load_image("/content/drive/MyDrive/DayAheadSolar/outputs/shap.png"), use_column_width=True)
-
-# --- 6. FINAL INSIGHTS ---
-elif section == "Final Insights":
-    st.header("🧾 Final Insights")
+# Section: Explainability
+elif section == "Explainability":
+    st.header("Model Explainability using SHAP")
 
     st.markdown("""
-- ✅ **Best model**: Prophet (R² ≈ 0.73) — captures both trend and seasonality.
-- 🌦️ **Radiation & Cloudiness**: Strongest predictors of generation.
-- 🔁 **Lag features**: Yesterday’s output is a solid predictor.
-- 📈 **Seasonality**: Prophet captured weekly and annual cycles.
-- 🧪 **SARIMAX**: Underperforms unless well-tuned; useful for testing time-lagged variables.
-- 📉 **SHAP**: Confirms dependence on physical drivers (radiation, weather) and past output.
-""")
+    SHAP (SHapley Additive exPlanations) shows feature contributions to predictions.
 
-# --- 7. CREDITS ---
+    **Key Insights:**
+    - Past solar generation (lags) is highly predictive
+    - Cloudiness and radiation dominate climate influence
+    - Humidity, temperature, and wind speed also contribute
+
+    Below is the SHAP summary plot:
+    """)
+    st.image(load_image("outputs/shap.png"), use_column_width=True)
+
+# Section: Insights
+elif section == "Insights & Interpretation":
+    st.header("Insights and Interpretation")
+    st.markdown("""
+    - The best-performing model was Prophet (R² ≈ 0.735)
+    - Solar generation shows strong seasonality and trends
+    - Previous-day output and radiation levels are the most important predictors
+    - SHAP and feature importance confirmed dependence on climate
+    - Time series methods outperformed complex ML models (esp. with limited data)
+    """)
+
+# Section: Credits
 elif section == "Credits":
-    st.header("📜 Credits & Acknowledgments")
+    st.header("Credits and Acknowledgments")
     st.markdown("""
-- 👨‍💻 **Project by**: [Moksh Ahuja](https://www.linkedin.com/in/moksh-ahuja)
-- 🛰️ **Datasets**:
-  - NASA POWER: Climate and radiation variables
-  - CEA: Daily solar energy (MWh)
-- 🧠 **ML Stack**:
-  - Regression, Random Forest, XGBoost, Neural Networks
-  - Prophet, SARIMA, SARIMAX (Auto-tuned)
-  - SHAP for model explainability
-- 🔧 **Tech Used**:
-  - pandas, matplotlib, seaborn, sklearn, statsmodels, fbprophet, shap, streamlit
-""")
+    - Author: [Moksh Ahuja](https://www.linkedin.com/in/moksh-ahuja)
+    - Data Sources:
+        - NASA POWER (climate and radiation)
+        - CEA Daily Reports (solar output)
+    - Tools:
+        - Python, pandas, matplotlib, scikit-learn, statsmodels, Prophet, SHAP, Streamlit
+    """)
