@@ -46,16 +46,16 @@ elif section == "Dataset & Trends":
     st.header("Dataset and Trend Analysis")
     df = pd.read_csv("data/processed/merged_solar_climate_engineered.csv", parse_dates=["date"])
     st.subheader("Sample of Feature-Engineered Data")
-    st.dataframe(df.head())
+    st.dataframe(df.head(20))  # Show more rows
 
     st.subheader("Correlation Heatmap")
-    st.image(load_image("outputs/corr.png"), use_column_width=True)
+    st.image(load_image("outputs/corr.png"), use_container_width=True)
 
     st.subheader("Pairplot: Solar vs Climate Variables")
-    st.image(load_image("outputs/pairplot.png"), use_column_width=True)
+    st.image(load_image("outputs/pairplot.png"), use_container_width=True)
 
     st.subheader("Solar Generation and Climate Trends Over Time")
-    st.image(load_image("outputs/temporal.png"), use_column_width=True)
+    st.image(load_image("outputs/temporal.png"), use_container_width=True)
 
 # Section: Feature Engineering
 elif section == "Feature Engineering":
@@ -88,10 +88,10 @@ elif section == "Model Performance":
     """)
 
     st.subheader("Prophet Forecast")
-    st.image(load_image("outputs/prophet.png"), use_column_width=True)
+    st.image(load_image("outputs/prophet.png"), use_container_width=True)
 
     st.subheader("Prophet Trend Components")
-    st.image(load_image("outputs/prophet_components.png"), use_column_width=True)
+    st.image(load_image("outputs/prophet_components.png"), use_container_width=True)
 
 # Section: Explainability
 elif section == "Explainability":
@@ -107,7 +107,7 @@ elif section == "Explainability":
 
     Below is the SHAP summary plot:
     """)
-    st.image(load_image("outputs/shap.png"), use_column_width=True)
+    st.image(load_image("outputs/shap.png"), use_container_width=True)
 
 # Section: Insights
 elif section == "Insights & Interpretation":
@@ -124,7 +124,7 @@ elif section == "Insights & Interpretation":
 elif section == "Credits":
     st.header("Credits and Acknowledgments")
     st.markdown("""
-    - Author: [Moksh Ahuja](https://www.linkedin.com/in/moksh-ahuja)
+    - Author: [Your Name]
     - Data Sources:
         - NASA POWER (climate and radiation)
         - CEA Daily Reports (solar output)
