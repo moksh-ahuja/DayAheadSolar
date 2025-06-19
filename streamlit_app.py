@@ -46,7 +46,7 @@ elif section == "Dataset & Trends":
     st.header("Dataset and Trend Analysis")
     df = pd.read_csv("data/processed/merged_solar_climate_engineered.csv", parse_dates=["date"])
     st.subheader("Sample of Feature-Engineered Data")
-    st.dataframe(df.head(20))  # Show more rows
+    st.dataframe(df.head(10))  # Show more rows
 
     st.subheader("Correlation Heatmap")
     st.image(load_image("outputs/corr.png"), use_container_width=True)
@@ -92,6 +92,9 @@ elif section == "Model Performance":
 
     st.subheader("Prophet Trend Components")
     st.image(load_image("outputs/prophet_components.png"), use_container_width=True)
+    
+    st.subheader("Permutation Importance (Linear Regression)")
+    st.image(load_image("outputs/linreg_permutationimp.png"), use_container_width=True)
 
 # Section: Explainability
 elif section == "Explainability":
@@ -108,6 +111,9 @@ elif section == "Explainability":
     Below is the SHAP summary plot:
     """)
     st.image(load_image("outputs/shap.png"), use_container_width=True)
+    
+    st.subheader("Random Forest Feature Importance")
+    st.image(load_image("outputs/rf_featureimp.png"), use_container_width=True)
 
 # Section: Insights
 elif section == "Insights & Interpretation":
@@ -124,7 +130,7 @@ elif section == "Insights & Interpretation":
 elif section == "Credits":
     st.header("Credits and Acknowledgments")
     st.markdown("""
-    - Author: [Your Name]
+    - Author: [Moksh Ahuja](https://www.linkedin.com/in/moksh-ahuja)
     - Data Sources:
         - NASA POWER (climate and radiation)
         - CEA Daily Reports (solar output)
