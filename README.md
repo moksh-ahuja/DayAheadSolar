@@ -2,15 +2,15 @@
 
 Streamlit: https://dayaheadsolar.streamlit.app/
 
-## 🔍 Objective  
+## Objective  
 To model and forecast daily solar energy generation (in MWh) using both statistical time series and machine learning models, with insights from climate and calendar features.
 
-## 🧪 Data Sources  
+## Data Sources  
 - Solar Generation: Daily state-level MU → MWh data (CEA reports)  
 - Climate Data: NASA POWER API (temperature, humidity, wind, radiation, etc.)  
 - Engineered Features: Lags, rolling means, cyclical calendar encodings, cloudiness index, interactions  
 
-## ✅ Models Evaluated  
+## Models Evaluated  
 
 | Model              | R² Score     | Notes |
 |-------------------|--------------|-------|
@@ -22,7 +22,7 @@ To model and forecast daily solar energy generation (in MWh) using both statisti
 | SARIMAX (tuned)   | 0.325         | Decent, includes exogenous variables |
 | Prophet (best)    | 0.735         | Best-performing model overall 🎯 |
 
-## 🌞 Key Insights from Modeling
+## Key Insights from Modeling
 
 - Top drivers of solar generation (from SHAP):
   - Previous day’s solar generation (lag1)
@@ -36,19 +36,15 @@ To model and forecast daily solar energy generation (in MWh) using both statisti
 - Weekly seasonality exists → captured well by Prophet and SARIMA (seasonal order)  
 - Feature engineering (lags, rolling means, sin/cos encodings) greatly boosted performance  
 
-## 📈 Final Recommendation
+## Final Recommendation
 
 - Use Prophet for forecasting future generation  
 - Incorporate lags and radiation forecasts as input (can improve even more!)  
 - For interpretability, SHAP visualizations provide strong justification for feature usage  
 
-## 🗂 Files Used  
+## Files Used  
 
 - `solar_clean.csv`, `climate_nasa_power.csv`  
 - `merged_solar_climate_engineered.csv` (final modeling file)  
 
-## 🎯 Next Steps (optional)  
 
-- Deploy Prophet as a dashboard or API  
-- Retrain monthly with fresh data  
-- Add more solar plant–level data (if possible)
